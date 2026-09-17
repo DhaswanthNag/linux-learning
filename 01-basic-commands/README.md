@@ -4,18 +4,18 @@
 
 ## 📋 Commands at a Glance
 
-| Command | Purpose | Example |
-|---|---|---|
-| `pwd` | Shows the current directory | `pwd` |
-| `ls` | Lists files and directories | `ls` |
-| `cd` | Changes the current directory | `cd Documents` |
-| `clear` | Clears the terminal screen | `clear` |
-| `echo` | Prints text or values | `echo "Hello Linux"` |
-| `whoami` | Shows the current username | `whoami` |
-| `date` | Displays the current date and time | `date` |
-| `man` | Opens a command's manual page | `man ls` |
-| `history` | Displays previously used commands | `history` |
-| `exit` | Closes the terminal session | `exit` |
+| Command   | Purpose                            | Example              |
+| --------- | ---------------------------------- | -------------------- |
+| `pwd`     | Shows the current directory        | `pwd`                |
+| `ls`      | Lists files and directories        | `ls`                 |
+| `cd`      | Changes the current directory      | `cd Documents`       |
+| `clear`   | Clears the terminal screen         | `clear`              |
+| `echo`    | Prints text or values              | `echo "Hello Linux"` |
+| `whoami`  | Shows the current username         | `whoami`             |
+| `date`    | Displays the current date and time | `date`               |
+| `man`     | Opens a command's manual page      | `man ls`             |
+| `history` | Displays previously used commands  | `history`            |
+| `exit`    | Closes the terminal session        | `exit`               |
 
 ---
 
@@ -123,9 +123,9 @@ Hello Linux
 ### More examples
 
 ```bash
-echo $HOME                 # Print the home directory
-echo "Linux is powerful"    # Print a sentence
-echo "Hello" > greeting.txt # Write text to a file
+echo $HOME                    # Print the home directory
+echo "Linux is powerful"      # Print a sentence
+echo "Hello" > greeting.txt   # Write text to a file
 ```
 
 > ⚠️ The redirection example `>` overwrites the file if it already exists. Use `>>` to append text instead.
@@ -179,7 +179,7 @@ date +%H:%M:%S       # Example: 10:30:45
 
 ## 📖 8. `man` — Read Manual Pages
 
-The `man` command opens the official manual page for a command.
+The `man` command opens the manual page for a command.
 
 ```bash
 man ls
@@ -187,10 +187,10 @@ man ls
 
 Inside a manual page:
 
-- Press **Space** to move down one page.
-- Press **b** to move back one page.
-- Press **/** and enter a word to search.
-- Press **q** to quit.
+* Press **Space** to move down one page.
+* Press **b** to move back one page.
+* Press **/** and enter a word to search.
+* Press **q** to quit.
 
 You can also use:
 
@@ -255,13 +255,13 @@ Ctrl + D
 
 ## ⌨️ Helpful Terminal Shortcuts
 
-| Shortcut | Action |
-|---|---|
-| `Tab` | Auto-complete commands, filenames, and directory names |
-| `↑` / `↓` | Move through previously entered commands |
-| `Ctrl + C` | Stop the currently running command |
-| `Ctrl + L` | Clear the terminal screen |
-| `Ctrl + D` | Exit the current shell or send end-of-file input |
+| Shortcut   | Action                                                 |
+| ---------- | ------------------------------------------------------ |
+| `Tab`      | Auto-complete commands, filenames, and directory names |
+| `↑` / `↓`  | Move through previously entered commands               |
+| `Ctrl + C` | Stop the currently running command                     |
+| `Ctrl + L` | Clear the terminal screen                              |
+| `Ctrl + D` | Exit the current shell or send end-of-file input       |
 
 ### Example: Fast navigation with `Tab`
 
@@ -285,19 +285,27 @@ Try these commands in order:
 
 ```bash
 pwd
+
 ls
+
 mkdir -p linux-practice
+
 cd linux-practice
+
 echo "Linux practice" > notes.txt
+
 ls
+
 cat notes.txt
+
 cd ..
+
 pwd
 ```
 
 This exercise shows your location, lists files, creates a practice directory, writes a text file, reads it, and returns to the parent directory.
 
-> ⚠️ The practice session includes `mkdir` and `cat` to make the example useful. These commands are not part of the original image, but they are standard commands commonly used with the commands above.
+> ⚠️ The practice session includes `mkdir` and `cat` to make the example useful. These commands are not part of the original command list, but they are standard commands commonly used with the commands above.
 
 ---
 
@@ -313,9 +321,9 @@ This exercise shows your location, lists files, creates a practice directory, wr
 
 ## 📚 References
 
-[1]: https://www.gnu.org/software/coreutils/manual/coreutils.html "GNU Coreutils Manual"
-[2]: https://man7.org/linux/man-pages/ "Linux man-pages Project"
-[3]: https://www.gnu.org/software/bash/manual/bash.html "GNU Bash Reference Manual"
+* [GNU Coreutils Manual](https://www.gnu.org/software/coreutils/manual/coreutils.html)
+* [Linux man-pages Project](https://man7.org/linux/man-pages/)
+* [GNU Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
 ⭐ If this guide helped you learn Linux commands, consider starring the repository!
 
@@ -323,8 +331,8 @@ Made for Linux beginners with 🐧 and ❤️
 
 ## 🔗 Further Reading
 
-See the [GNU Coreutils Manual][1], the [Linux man-pages Project][2], and the [GNU Bash Reference Manual][3] for authoritative documentation.
+See the [GNU Coreutils Manual](https://www.gnu.org/software/coreutils/manual/coreutils.html), the [Linux man-pages Project](https://man7.org/linux/man-pages/), and the [GNU Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html) for authoritative documentation.
 
 ---
 
-_This README is based on the commands shown in the provided Linux basic commands reference image._
+*This README is based on the commands shown in the provided Linux basic commands reference image.*
