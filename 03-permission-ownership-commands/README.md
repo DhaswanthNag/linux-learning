@@ -1,83 +1,176 @@
-# 🔹 Permission & Ownership Commands
+# 🔐 Linux Permissions & Ownership Commands
 
-Practical Linux command notes with screenshots. Replace the placeholder images in the `images/` folder with your own terminal screenshots.
+> Beginner-friendly reference for managing file permissions and ownership in Linux.
 
-## `ls -l`
+---
 
-View file permissions and ownership.
+## 📋 Commands at a Glance
+
+| Command | Purpose | Example |
+|---|---|---|
+| `ls -l` | View permissions and ownership | `ls -l` |
+| `chmod` | Change permissions | `chmod 755 file.sh` |
+| `chmod +x` | Make a file executable | `chmod +x script.sh` |
+| `chown` | Change file owner | `sudo chown user file.txt` |
+| `chgrp` | Change group owner | `sudo chgrp devs file.txt` |
+| `chown -R` | Change ownership recursively | `sudo chown -R user mydir/` |
+| `chmod -R` | Change permissions recursively | `chmod -R 755 mydir/` |
+
+---
+
+## 🔎 1. `ls -l` — View Permissions
 
 ```bash
 ls -l
 ```
 
-![ls-l screenshot](images/ls-l.png)
+Example:
 
-## `chmod 644 notes.txt`
-
-Change file permissions.
-
-```bash
-chmod 644 notes.txt
+```text
+-rwxr-xr-- 1 user user file.txt
 ```
 
-![chmod screenshot](images/chmod.png)
+### Permission Structure
 
-## `chmod +x script.sh`
+```text
+-rwxr-xr--
+ │   │  │
+ │   │  └── Others
+ │   └───── Group
+ └───────── Owner
+```
 
-Make a script executable.
+- `r` → Read
+- `w` → Write
+- `x` → Execute
+- `-` → No permission
+
+---
+
+## 🔑 2. `chmod` — Change Permissions
+
+```bash
+chmod 755 file.sh
+```
+
+### Permission Values
+
+| Number | Permission |
+|---|---|
+| `0` | None |
+| `1` | Execute |
+| `2` | Write |
+| `4` | Read |
+| `5` | Read + Execute |
+| `6` | Read + Write |
+| `7` | Read + Write + Execute |
+
+Example:
+
+```text
+755 = rwxr-xr-x
+```
+
+---
+
+## ▶️ 3. `chmod +x` — Make Executable
 
 ```bash
 chmod +x script.sh
 ```
 
-![chmod-executable screenshot](images/chmod-executable.png)
-
-## `sudo chown user notes.txt`
-
-Change file owner.
+Run the script:
 
 ```bash
-sudo chown user notes.txt
+./script.sh
 ```
 
-![chown screenshot](images/chown.png)
+---
 
-## `sudo chown user:group notes.txt`
-
-Change owner and group.
+## 👤 4. `chown` — Change Owner
 
 ```bash
-sudo chown user:group notes.txt
+sudo chown newuser file.txt
 ```
 
-![chown-group screenshot](images/chown-group.png)
-
-## `sudo chgrp developers notes.txt`
-
-Change group ownership.
+Change owner and group:
 
 ```bash
-sudo chgrp developers notes.txt
+sudo chown newuser:devs file.txt
 ```
 
-![chgrp screenshot](images/chgrp.png)
+---
 
-## `umask`
-
-Display or change the default permission mask.
+## 👥 5. `chgrp` — Change Group
 
 ```bash
-umask
+sudo chgrp devs file.txt
 ```
 
-![umask screenshot](images/umask.png)
+---
 
-## `stat notes.txt`
-
-Show detailed file metadata.
+## 🔄 6. `chown -R` — Change Ownership Recursively
 
 ```bash
-stat notes.txt
+sudo chown -R newuser mydir/
 ```
 
-![stat screenshot](images/stat.png)
+> ⚠️ `-R` affects the directory and everything inside it.
+
+---
+
+## 🔁 7. `chmod -R` — Change Permissions Recursively
+
+```bash
+chmod -R 755 mydir/
+```
+
+> ⚠️ Be careful when changing permissions recursively.
+
+---
+
+## 🧪 Mini Practice
+
+```bash
+mkdir permissions-practice
+
+cd permissions-practice
+
+touch file.txt
+
+ls -l
+
+chmod 644 file.txt
+
+ls -l
+
+chmod +x file.txt
+
+ls -l
+
+cd ..
+```
+
+---
+
+## 🛡️ Safety Tips
+
+- Always check permissions with `ls -l`.
+- Be careful with `sudo`.
+- Be careful with `chmod -R` and `chown -R`.
+- Avoid unnecessary `777` permissions.
+- Test commands in a practice directory first.
+
+---
+
+## 📚 References
+
+- [GNU Coreutils Manual](https://www.gnu.org/software/coreutils/manual/coreutils.html)
+- [Linux man-pages](https://man7.org/linux/man-pages/)
+- [GNU Bash Reference](https://www.gnu.org/software/bash/manual/bash.html)
+
+---
+
+⭐ If this guide helped you learn Linux, consider starring the repository!
+
+Made for Linux beginners with 🐧 and ❤️
