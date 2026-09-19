@@ -1,123 +1,297 @@
-# 🔹 Process Management Commands
+# ⚙️ Linux Process Management Commands
 
-Practical Linux command notes with screenshots. Replace the placeholder images in the `images/` folder with your own terminal screenshots.
+> A beginner-friendly reference for viewing, monitoring, controlling, and managing processes in Linux.
 
-## `ps`
+---
 
-Display running processes.
+## 📋 Commands at a Glance
+
+| Command | Purpose | Example |
+|---|---|---|
+| `ps` | Displays running processes | `ps` |
+| `ps aux` | Displays all running processes | `ps aux` |
+| `top` | Real-time process monitoring | `top` |
+| `htop` | Interactive process viewer | `htop` |
+| `kill` | Terminates a process | `kill 1234` |
+| `killall` | Kills processes by name | `killall firefox` |
+| `pkill` | Kills processes by name/pattern | `pkill chrome` |
+| `jobs` | Shows background jobs | `jobs` |
+| `bg` | Resumes a job in background | `bg %1` |
+| `fg` | Brings a job to foreground | `fg %1` |
+| `nice` | Starts a process with priority | `nice -n 10 command` |
+| `renice` | Changes process priority | `renice -n 10 -p 1234` |
+| `nohup` | Runs a command after logout | `nohup command &` |
+
+---
+
+## 🔍 1. `ps` — Display Processes
+
+Shows processes running in the current terminal.
 
 ```bash
 ps
 ```
 
-![ps screenshot](images/ps.png)
+Example:
 
-## `ps aux`
+```text
+PID   TTY   TIME     CMD
+1234  pts/0 00:00:00 bash
+```
 
-Display detailed processes for all users.
+---
+
+## 📋 2. `ps aux` — Display All Processes
+
+Shows detailed information about processes running on the system.
 
 ```bash
 ps aux
 ```
 
-![ps-aux screenshot](images/ps-aux.png)
+Useful for finding:
 
-## `top`
+- PID
+- CPU usage
+- Memory usage
+- User
+- Running command
 
-Monitor processes interactively.
+---
+
+## 📊 3. `top` — Real-Time Process Monitor
+
+Displays running processes and system resource usage in real time.
 
 ```bash
 top
 ```
 
-![top screenshot](images/top.png)
+Press:
 
-## `htop`
+```text
+q
+```
 
-Interactive process viewer (if installed).
+to quit.
+
+---
+
+## 📈 4. `htop` — Interactive Process Viewer
+
+Provides an interactive and user-friendly process monitor.
 
 ```bash
 htop
 ```
 
-![htop screenshot](images/htop.png)
-
-## `pgrep nginx`
-
-Find process IDs by name.
+> ℹ️ If not installed on Ubuntu:
 
 ```bash
-pgrep nginx
+sudo apt install htop
 ```
 
-![pgrep screenshot](images/pgrep.png)
+Press:
 
-## `pidof ssh`
+```text
+q
+```
 
-Find the PID of a program.
+to quit.
+
+---
+
+## 🛑 5. `kill` — Terminate a Process
+
+Terminates a process using its PID.
 
 ```bash
-pidof ssh
+kill 1234
 ```
 
-![pidof screenshot](images/pidof.png)
-
-## `kill PID`
-
-Send a signal to a process.
+Force termination:
 
 ```bash
-kill PID
+kill -9 1234
 ```
 
-![kill screenshot](images/kill.png)
+> ⚠️ Use `kill -9` only when a normal `kill` does not work.
 
-## `kill -9 PID`
+---
 
-Forcefully terminate a process.
+## 💀 6. `killall` — Kill Processes by Name
+
+Terminates processes using their name.
 
 ```bash
-kill -9 PID
+killall firefox
 ```
 
-![kill-9 screenshot](images/kill-9.png)
+> ⚠️ This can terminate multiple processes with the same name.
 
-## `jobs`
+---
 
-Show shell background jobs.
+## 🎯 7. `pkill` — Kill Processes by Name
+
+Terminates processes based on their name or pattern.
+
+```bash
+pkill chrome
+```
+
+Useful when you don't know the PID.
+
+---
+
+## 📦 8. `jobs` — View Background Jobs
+
+Displays jobs started from the current shell.
 
 ```bash
 jobs
 ```
 
-![jobs screenshot](images/jobs.png)
+Example:
 
-## `bg`
-
-Resume a suspended job in the background.
-
-```bash
-bg
+```text
+[1]+ Running    sleep 100 &
 ```
 
-![bg screenshot](images/bg.png)
+---
 
-## `fg`
+## 🌙 9. `bg` — Run Job in Background
 
-Bring a background job to the foreground.
+Resumes a stopped job in the background.
 
 ```bash
-fg
+bg %1
 ```
 
-![fg screenshot](images/fg.png)
+---
 
-## `nohup command &`
+## 🔙 10. `fg` — Bring Job to Foreground
 
-Run a command that can continue after logout.
+Brings a background job back to the foreground.
+
+```bash
+fg %1
+```
+
+---
+
+## ⚡ 11. `nice` — Start with Process Priority
+
+Starts a process with a specified priority.
+
+```bash
+nice -n 10 command
+```
+
+Higher nice values generally mean lower CPU priority.
+
+---
+
+## 🔧 12. `renice` — Change Process Priority
+
+Changes the priority of an already running process.
+
+```bash
+renice -n 10 -p 1234
+```
+
+Here:
+
+- `10` → New nice value
+- `1234` → Process ID
+
+---
+
+## 🔌 13. `nohup` — Keep Process Running After Logout
+
+Runs a command so it can continue after the terminal session ends.
 
 ```bash
 nohup command &
 ```
 
-![nohup screenshot](images/nohup.png)
+Example:
+
+```bash
+nohup python3 app.py &
+```
+
+Output is commonly written to:
+
+```text
+nohup.out
+```
+
+---
+
+## 🧪 Mini Practice
+
+```bash
+sleep 100 &
+
+jobs
+
+ps
+
+ps aux
+
+top
+
+kill <PID>
+
+jobs
+```
+
+### Useful Flow
+
+```text
+ps / ps aux
+      ↓
+Find the process
+      ↓
+Get the PID
+      ↓
+kill PID
+      ↓
+Stop the process
+```
+
+---
+
+## 🛡️ Safety Tips
+
+- Check the PID before using `kill`.
+- Be careful with `kill -9`.
+- `killall` and `pkill` can affect multiple processes.
+- Don't terminate system processes unless you understand their purpose.
+- Use `top` or `htop` to inspect processes before stopping them.
+
+---
+
+## ⌨️ Helpful Shortcuts
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl + C` | Stop the foreground process |
+| `Ctrl + Z` | Suspend the foreground process |
+| `bg` | Continue a stopped job in background |
+| `fg` | Bring a background job to foreground |
+| `q` | Quit `top` / `htop` |
+
+---
+
+## 📚 References
+
+- [Linux man-pages](https://man7.org/linux/man-pages/)
+- [GNU Coreutils Manual](https://www.gnu.org/software/coreutils/manual/coreutils.html)
+- [GNU Bash Reference](https://www.gnu.org/software/bash/manual/bash.html)
+
+---
+
+⭐ If this guide helped you learn Linux, consider starring the repository!
+
+Made for Linux beginners with 🐧 and ❤️
