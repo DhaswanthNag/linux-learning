@@ -1,6 +1,6 @@
 # 🔐 Linux Permissions & Ownership Commands
 
-> Beginner-friendly reference for managing file permissions and ownership in Linux.
+> A beginner-friendly reference for managing file permissions and ownership in Linux.
 
 ---
 
@@ -30,7 +30,7 @@ Example:
 -rwxr-xr-- 1 user user file.txt
 ```
 
-### Permission Structure
+Permission structure:
 
 ```text
 -rwxr-xr--
@@ -55,7 +55,7 @@ chmod 755 file.sh
 
 ### Permission Values
 
-| Number | Permission |
+| Number | Meaning |
 |---|---|
 | `0` | None |
 | `1` | Execute |
@@ -65,9 +65,12 @@ chmod 755 file.sh
 | `6` | Read + Write |
 | `7` | Read + Write + Execute |
 
-Example:
+Common permissions:
 
 ```text
+600 = rw-------
+644 = rw-r--r--
+700 = rwx------
 755 = rwxr-xr-x
 ```
 
@@ -79,7 +82,7 @@ Example:
 chmod +x script.sh
 ```
 
-Run the script:
+Run:
 
 ```bash
 ./script.sh
@@ -157,9 +160,23 @@ cd ..
 
 - Always check permissions with `ls -l`.
 - Be careful with `sudo`.
-- Be careful with `chmod -R` and `chown -R`.
+- Double-check paths before using `chown -R` or `chmod -R`.
 - Avoid unnecessary `777` permissions.
-- Test commands in a practice directory first.
+- Practice in a test directory first.
+
+---
+
+## 📌 Quick Revision
+
+```text
+ls -l      → View permissions
+chmod      → Change permissions
+chmod +x   → Make executable
+chown      → Change owner
+chgrp      → Change group
+chown -R   → Change owner recursively
+chmod -R   → Change permissions recursively
+```
 
 ---
 
