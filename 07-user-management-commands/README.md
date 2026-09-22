@@ -260,7 +260,7 @@ sudo      → Run command with privileges
 
 ---
 
-⭐ If this guide helped you learn Linux, consider starring the repository!
+⭐ If this guide helped you learn Linux, consider starring the repository!!
 
 Made for Linux beginners with 🐧 and ❤️
 ````
