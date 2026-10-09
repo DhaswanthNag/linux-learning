@@ -1,0 +1,198 @@
+# Basic Linux Commands
+
+## 1. `pwd` – Print Working Directory
+
+The `pwd` command stands for **Print Working Directory**. It displays the absolute path of the directory you are currently working in within the Linux file system. This command is useful when navigating between multiple directories because it helps you identify your current location. The output begins from the root directory (`/`) and shows the complete path to your present working directory. For example, if you are working inside the Documents folder of a user named `dhaswanth`, executing `pwd` may display `/home/dhaswanth/Documents`. This command does not modify any files or directories; it simply displays your current location. It is particularly helpful when working with terminal commands that require specific file paths.
+
+**Example:**
+
+```bash
+pwd
+```
+
+**Sample Output:**
+
+```text
+/home/dhaswanth/Documents
+```
+
+## 2. `ls` – List Files and Directories
+
+The `ls` command is used to list files and directories available inside the current directory or a specified location. It helps users understand the contents of a directory without opening it through a graphical file manager. By default, `ls` displays the names of visible files and directories. You can also use additional options to display more information. For example, `ls -l` shows detailed information such as file permissions, ownership, file size, and modification date, while `ls -a` displays hidden files and directories whose names begin with a dot (`.`). Combining these options with `ls -la` displays both hidden and visible files along with their details. This command is essential for everyday Linux file management and navigation.
+
+**Examples:**
+
+```bash
+ls
+ls -l
+ls -a
+ls -la
+```
+
+**Sample Output:**
+
+```text
+Documents  Downloads  Music  Pictures  Videos
+```
+
+## 3. `cd` – Change Directory
+
+The `cd` command stands for **Change Directory** and allows users to move from one directory to another within the Linux file system. It is one of the most frequently used commands when working in a terminal. You can specify a directory name to enter it, provide an absolute path to navigate directly to a particular location, or use special symbols to move between directories. For example, `cd Documents` moves into the Documents directory if it exists inside the current directory. The command `cd ..` moves one level up to the parent directory, while `cd ~` takes you to your home directory. Running `cd` without an argument also normally takes you to your home directory. Understanding this command makes it easier to navigate project folders, access files, and execute commands in the correct location.
+
+**Examples:**
+
+```bash
+cd Documents
+cd ..
+cd ~
+cd /home/dhaswanth/Downloads
+```
+
+**Explanation:**
+
+* `cd Documents` – Opens the Documents directory.
+* `cd ..` – Moves to the parent directory.
+* `cd ~` – Navigates to the current user's home directory.
+* `cd /home/dhaswanth/Downloads` – Navigates directly to the specified absolute path.
+
+## 4. `clear` – Clear the Terminal Screen
+
+The `clear` command removes the currently displayed terminal output from the visible terminal screen, providing a clean workspace for executing new commands. When you run many commands in succession, the terminal can become crowded with previous outputs, making it difficult to read new results. Using `clear` helps improve readability by moving the previous visible content out of the active display. It does not delete files, erase command history, or stop running processes. It only clears the visible terminal screen. This command is especially useful when troubleshooting errors, practising Linux commands, or working through long sequences of terminal operations. In many terminals, the keyboard shortcut `Ctrl + L` performs a similar action.
+
+**Example:**
+
+```bash
+clear
+```
+
+**Result:** The visible terminal screen is cleared, allowing you to continue working in a cleaner terminal environment.
+
+## 5. `echo` – Display Text and Values
+
+The `echo` command displays text, messages, or variable values in the terminal. It is commonly used in shell scripting, command-line practice, and basic automation tasks. For example, `echo "Hello Linux"` prints the message `Hello Linux` on the screen. The command can also display the values stored in shell variables by using the dollar sign (`$`) before the variable name. For example, `echo $HOME` displays the path of the current user's home directory. Additionally, `echo` can be used with output redirection operators to write text into files. Using `>` creates a new file or overwrites an existing file's contents, whereas `>>` appends text to the end of an existing file. Therefore, `echo` is useful for displaying information, testing variables, and generating simple text output in Linux.
+
+**Examples:**
+
+```bash
+echo "Hello Linux"
+echo "Welcome to Linux Learning"
+echo $HOME
+echo "Learning Linux Commands" > notes.txt
+echo "Practising basic commands" >> notes.txt
+```
+
+**Sample Output:**
+
+```text
+Hello Linux
+Welcome to Linux Learning
+/home/dhaswanth
+```
+
+**Note:** The last two examples create or modify `notes.txt` in the current directory.
+
+## 6. `whoami` – Display the Current Username
+
+The `whoami` command displays the username of the user account currently executing commands in the terminal. It is particularly useful when working on systems with multiple user accounts or when switching between users with commands such as `su` or `sudo`. By executing `whoami`, you can quickly verify which account is active before performing operations that require particular permissions. For example, if you are logged in as `dhaswanth`, the command displays `dhaswanth`. If you switch to another user account, the output changes to reflect that account. This command is useful for system administration, troubleshooting permission-related problems, and confirming the active user before performing administrative tasks.
+
+**Example:**
+
+```bash
+whoami
+```
+
+**Sample Output:**
+
+```text
+dhaswanth
+```
+
+## 7. `date` – Display the Current Date and Time
+
+The `date` command displays the system's current date and time according to the system clock and configured time zone. It is useful for checking timestamps, troubleshooting system scheduling issues, recording command execution times, and working with shell scripts that require date or time information. By default, the command displays the date, time, time zone, and year in a readable format. You can also customize its output using formatting options. For example, `date +"%Y-%m-%d"` displays the date in year-month-day format, while `date +"%H:%M:%S"` displays the time in hours, minutes, and seconds using a 24-hour clock. This command is also useful when checking log files and understanding when system activities occurred.
+
+**Examples:**
+
+```bash
+date
+date +"%Y-%m-%d"
+date +"%H:%M:%S"
+```
+
+**Sample Output:**
+
+```text
+Fri Oct  9 10:30:00 PM IST 2026
+2026-10-09
+22:30:00
+```
+
+*Note: The displayed output depends on the system's actual clock and time-zone configuration.*
+
+## 8. `man` – Access the Manual for Linux Commands
+
+The `man` command stands for **Manual** and provides detailed documentation for Linux commands, system utilities, configuration files, and programming interfaces. It is an important learning tool because it explains how a command works, lists available options, describes its arguments, and provides additional technical information. For example, executing `man ls` opens the manual page for the `ls` command, where you can learn about options such as `-l`, `-a`, and `-R`. Manual pages are generally displayed through a terminal pager, allowing you to move through the documentation. Press the spacebar to move forward one page, use the arrow keys to scroll, and press `q` to exit the manual. You can also search within a manual page by pressing `/`, entering a search term, and pressing Enter. This command encourages independent learning and helps users understand commands beyond their basic usage.
+
+**Examples:**
+
+```bash
+man ls
+man pwd
+man cd
+```
+
+**Useful navigation keys:**
+
+* `Space` – Move forward one page.
+* `b` – Move backward one page.
+* `/keyword` – Search for a word or phrase.
+* `n` – Find the next search match.
+* `q` – Exit the manual page.
+
+**Note:** Some shell built-in commands, including `cd`, may have documentation available through the shell's built-in help system rather than a standalone manual page. You can try `help cd` in Bash.
+
+## 9. `history` – View Previously Executed Commands
+
+The `history` command displays a list of commands previously entered in the current shell session and, depending on the shell configuration, commands saved from earlier sessions. It is helpful when you want to repeat a command, review your previous work, or find a command that you do not remember completely. Each displayed command usually has a corresponding number, which can be used to reference it. For example, `history` displays the command history, while `history 10` typically displays the ten most recent entries in Bash. You can also use the Up and Down arrow keys to navigate previously entered commands. In Bash, `!!` repeats the previous command, and `!25` attempts to execute the command associated with history entry number 25. However, history expansion behaviour can vary by shell, and commands from the current session may not always be saved to the history file until the session ends.
+
+**Examples:**
+
+```bash
+history
+history 10
+!!
+!25
+```
+
+**Explanation:**
+
+* `history` – Displays the available command history.
+* `history 10` – Displays the last ten history entries in Bash.
+* `!!` – Repeats the previous command in shells that support this history expansion.
+* `!25` – Runs history entry number 25 in shells that support this syntax.
+
+**Note:** Use history carefully because repeating a previous command may perform file modifications or other actions again.
+
+## 10. `exit` – Close the Terminal Session
+
+The `exit` command terminates the current shell session or exits the current shell environment. It is commonly used when you have finished working in the terminal and want to return to the previous shell or close the terminal session. For example, entering `exit` in a normal interactive shell ends that shell. If you are working inside a nested shell or have switched to another user, it may return you to the previous shell instead of closing the entire terminal window. In an interactive Bash session, `exit` can also accept an optional numeric status code, which indicates whether a command or script completed successfully. A status code of `0` conventionally indicates success, while a non-zero status indicates an error or another condition. Before exiting, make sure any important work has been saved and any long-running tasks that depend on the session have been handled appropriately.
+
+**Examples:**
+
+```bash
+exit
+exit 0
+```
+
+**Explanation:**
+
+* `exit` – Exits the current shell.
+* `exit 0` – Exits the current shell with a success status code of `0`.
+
+**Important:** Closing a shell can terminate processes associated with that session, depending on how they were started and the terminal's configuration.
+
+---
+
+## Conclusion
+
+These ten basic Linux commands provide a foundation for working efficiently in a Linux terminal. The `pwd`, `ls`, and `cd` commands help users understand and navigate the file system. The `clear`, `echo`, `whoami`, and `date` commands support everyday terminal operations, while `man` and `history` help users learn commands and review previous work. Finally, `exit` allows users to leave a shell session when they have finished working. Practising these commands regularly will help beginners develop confidence in Linux and prepare them to learn more advanced topics, including file permissions, process management, networking, package management, shell scripting, and system administration.
