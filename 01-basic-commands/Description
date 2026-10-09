@@ -191,7 +191,6 @@ exit 0
 
 **Important:** Closing a shell can terminate processes associated with that session, depending on how they were started and the terminal's configuration.
 
----
 
 ## Conclusion
 
