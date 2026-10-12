@@ -191,7 +191,6 @@ exit 0
 
 **Important:** Closing a shell can terminate processes associated with that session, depending on how they were started and the terminal's configuration.
 
-
 ## Conclusion
 
 These ten basic Linux commands provide a foundation for working efficiently in a Linux terminal. The `pwd`, `ls`, and `cd` commands help users understand and navigate the file system. The `clear`, `echo`, `whoami`, and `date` commands support everyday terminal operations, while `man` and `history` help users learn commands and review previous work. Finally, `exit` allows users to leave a shell session when they have finished working. Practising these commands regularly will help beginners develop confidence in Linux and prepare them to learn more advanced topics, including file permissions, process management, networking, package management, shell scripting, and system administration.
