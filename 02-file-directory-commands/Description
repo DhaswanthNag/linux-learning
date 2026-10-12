@@ -295,6 +295,4 @@ sudo updatedb
 
 Linux file and directory management commands are essential for organising, creating, copying, moving, searching, and deleting files efficiently through the terminal. The `touch` command creates empty files, while `cat` displays file contents. The `mkdir` command creates directories, and `cp` duplicates files or directory trees. The `mv` command moves or renames files, while `rm` and `rm -r` remove files and directory structures. For locating content, `find` searches directory trees directly, `tree` presents a visual hierarchy of directories, and `locate` searches a prebuilt database of filesystem paths.
 
-Practising these commands regularly will help beginners develop confidence in Linux file management and prepare them for more advanced tasks involving permissions, shell scripting, system administration, automation, and cloud computing.
-
 **Safety reminder:** Always verify file and directory paths before using deletion or overwrite commands. Options such as `-i` can help prevent accidental changes while you are learning.
