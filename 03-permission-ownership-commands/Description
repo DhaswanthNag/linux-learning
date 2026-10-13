@@ -1,0 +1,232 @@
+# Linux File Permissions and Ownership Commands
+
+## 1. `ls -l` – View File Permissions and Ownership
+
+The `ls -l` command displays files and directories in a detailed, long-listing format. It provides important information about each file, including its permissions, number of hard links, owner username, group name, file size, last modification date and time, and filename. This command is particularly useful for understanding Linux file permissions and determining which users can read, modify, or execute a file. The first column of the output represents the file type and its permissions. For example, `-rwxr-xr--` indicates that the owner can read, write, and execute the file, members of the associated group can read and execute it, and other users can only read it. A leading `d` instead of `-` indicates a directory. By using `ls -l`, administrators and developers can inspect ownership and permission settings before making changes with commands such as `chmod` and `chown`.
+
+**Examples:**
+
+```bash
+ls -l
+ls -l file.txt
+ls -lh
+```
+
+**Sample Output:**
+
+```text
+-rwxr-xr-- 1 dhaswanth devs 1024 Oct 13 20:30 script.sh
+-rw-r--r-- 1 dhaswanth devs  256 Oct 13 20:15 file.txt
+```
+
+**Explanation:**
+- `ls -l` – Displays detailed information about files and directories.
+- `ls -l file.txt` – Displays detailed information about a specific file.
+- `ls -lh` – Displays file sizes in a human-readable format, such as KB or MB.
+
+In the first example, `dhaswanth` is the owner, `devs` is the associated group, and the permission string `-rwxr-xr--` specifies the access allowed to the owner, group, and other users.
+
+## 2. `chmod` – Change File and Directory Permissions
+
+The `chmod` command stands for **Change Mode** and is used to modify the permissions of files and directories in Linux. It controls whether the owner, group members, and other users can read, write, or execute a particular file. Linux permissions are commonly represented by the letters `r`, `w`, and `x`, which stand for read, write, and execute, respectively. The `chmod` command supports both symbolic notation and numeric notation. Symbolic notation uses expressions such as `u+x` to add execute permission for the owner, while numeric notation uses numbers such as `755` to define permissions for the owner, group, and others. For example, `chmod 755 file.sh` grants the owner read, write, and execute permissions while granting the group and other users read and execute permissions. This command is important for protecting sensitive files, managing access to scripts, and configuring files for appropriate use in multi-user Linux environments.
+
+**Examples:**
+
+```bash
+chmod 755 file.sh
+chmod 644 file.txt
+chmod u+x script.sh
+chmod g-w file.txt
+chmod o+r file.txt
+```
+
+**Explanation:**
+- `chmod 755 file.sh` – Gives the owner full permissions and gives the group and others read and execute permissions.
+- `chmod 644 file.txt` – Gives the owner read and write permissions and gives the group and others read-only permissions.
+- `chmod u+x script.sh` – Adds execute permission for the owner.
+- `chmod g-w file.txt` – Removes write permission from the group.
+- `chmod o+r file.txt` – Adds read permission for other users.
+
+**Understanding numeric permissions:**
+
+| Number | Permission | Meaning |
+|---|---|---|
+| `7` | `rwx` | Read, write, execute |
+| `6` | `rw-` | Read and write |
+| `5` | `r-x` | Read and execute |
+| `4` | `r--` | Read only |
+| `0` | `---` | No permissions |
+
+For example, `chmod 755 file.sh` uses the digits `7`, `5`, and `5` to define permissions for the owner, group, and others, respectively.
+
+## 3. `chmod +x` – Make a File Executable
+
+The `chmod +x` command adds execute permission to a file, allowing it to be executed when the user has the necessary permissions and the system permits it. This command is frequently used for shell scripts, automation scripts, and other executable files. When you create a script such as `script.sh`, it might not have execute permission by default. Running `chmod +x script.sh` adds execute permission for the owner, group, and others, subject to the existing permission settings and the filesystem's restrictions. After granting execute permission, you can run the script using `./script.sh` from the directory containing the file. The `./` prefix tells the shell to execute the file from the current directory. Adding execute permission does not automatically guarantee that a script will run successfully; the script must also have valid contents, an appropriate interpreter where required, and any necessary dependencies.
+
+**Examples:**
+
+```bash
+touch script.sh
+chmod +x script.sh
+ls -l script.sh
+./script.sh
+```
+
+**Sample Output:**
+
+```text
+-rwxr-xr-x 1 dhaswanth devs 0 Oct 13 20:30 script.sh
+```
+
+**Explanation:**
+- `touch script.sh` – Creates an empty file named `script.sh`.
+- `chmod +x script.sh` – Adds execute permission.
+- `ls -l script.sh` – Displays the file's permissions and ownership.
+- `./script.sh` – Attempts to execute the script.
+
+**Example shell script:**
+
+```bash
+#!/bin/bash
+echo "Hello Linux!"
+```
+
+Save the contents in `script.sh`, then run:
+
+```bash
+chmod +x script.sh
+./script.sh
+```
+
+**Output:**
+
+```text
+Hello Linux!
+```
+
+The `chmod +x` command is especially useful when creating scripts for system administration, cloud automation, deployment, and DevOps tasks.
+
+## 4. `chown` – Change File Ownership
+
+The `chown` command stands for **Change Owner** and is used to change the owner of a file or directory. In Linux, each file has an associated owner and group, and these ownership details influence how permissions are applied. For example, `sudo chown user file.txt` changes the owner of `file.txt` to the user named `user`, assuming that the account exists and the operation is permitted. The `sudo` command runs the operation with elevated privileges, which are normally required to transfer ownership to another user. You can also change both the owner and group using a colon-separated expression, such as `sudo chown user:devs file.txt`. This command is useful when transferring files between user accounts, correcting ownership problems, and configuring application files for the appropriate service account. Changing a file's owner does not automatically assign new read, write, or execute permissions; ownership and permissions are separate properties.
+
+**Examples:**
+
+```bash
+sudo chown user file.txt
+sudo chown dhaswanth file.txt
+sudo chown dhaswanth:devs file.txt
+ls -l file.txt
+```
+
+**Explanation:**
+- `sudo chown user file.txt` – Changes the owner to the account named `user`.
+- `sudo chown dhaswanth file.txt` – Changes the owner to `dhaswanth`.
+- `sudo chown dhaswanth:devs file.txt` – Changes both the owner and group.
+- `ls -l file.txt` – Verifies the resulting ownership.
+
+**Sample Output:**
+
+```text
+-rw-r--r-- 1 dhaswanth devs 256 Oct 13 20:15 file.txt
+```
+
+In this output, `dhaswanth` is the owner and `devs` is the group.
+
+**Important:** The specified user and group must exist. Use `sudo` only when required, and verify the target path before changing ownership.
+
+## 5. `chgrp` – Change Group Ownership
+
+The `chgrp` command stands for **Change Group** and is used to change the group associated with a file or directory. Linux groups make it easier to manage permissions for multiple users who need access to shared files and resources. For example, a development team may use a group named `devs` so that its members can access project files according to the assigned permissions. Running `sudo chgrp devs file.txt` changes the file's group to `devs`, provided the group exists and the user has sufficient privileges. Depending on system rules, a regular user may also change a file's group to one of their own groups. The `chgrp` command changes the group ownership but does not directly change the file's permission bits. It is commonly used in collaborative environments, shared project directories, and server administration, where different teams require different levels of access to files.
+
+**Examples:**
+
+```bash
+sudo chgrp devs file.txt
+chgrp developers project.txt
+ls -l file.txt
+```
+
+**Explanation:**
+- `sudo chgrp devs file.txt` – Changes the group of `file.txt` to `devs`.
+- `chgrp developers project.txt` – Attempts to change the group to `developers`, if permitted.
+- `ls -l file.txt` – Displays the current group ownership.
+
+**Sample Output:**
+
+```text
+-rw-r--r-- 1 dhaswanth devs 256 Oct 13 20:15 file.txt
+```
+
+Here, `devs` is the file's associated group. Members of this group receive the permissions specified in the group portion of the file's permission string.
+
+**Practical use case:** A team can use group ownership to organise access to shared source code, project documents, or application resources without making every file accessible to all users.
+
+## 6. `chown -R` – Change Ownership Recursively
+
+The `chown -R` command changes the ownership of a directory and its contents recursively. The `-R` option stands for **Recursive**, meaning that the ownership change applies to the specified directory, its subdirectories, and the files contained within them. For example, `sudo chown -R user mydir/` changes the owner of `mydir` and the items inside it to the user named `user`, subject to permissions and filesystem restrictions. You can also change both the owner and group recursively using `sudo chown -R user:devs mydir/`. This command is useful when transferring a project directory to a new user, correcting ownership across application files, or setting up directories for a service account. However, recursive ownership changes can affect many files at once, so it is essential to verify the directory path before running the command. Avoid applying recursive ownership changes to broad system directories unless you understand the consequences.
+
+**Examples:**
+
+```bash
+sudo chown -R user mydir/
+sudo chown -R dhaswanth:devs projects/
+ls -l mydir/
+```
+
+**Explanation:**
+- `sudo chown -R user mydir/` – Changes the owner of the directory and its contents to `user`.
+- `sudo chown -R dhaswanth:devs projects/` – Changes the owner and group throughout `projects/`.
+- `ls -l mydir/` – Inspects ownership of the directory's immediate contents.
+
+**Example directory structure before the change:**
+
+```text
+mydir/
+├── file1.txt
+├── file2.txt
+└── subdir/
+    └── file3.txt
+```
+
+After running `sudo chown -R user mydir/`, the ownership of the directory, its two files, the subdirectory, and the file inside that subdirectory is changed to `user`.
+
+**Important Safety Tip:** Always confirm the target directory with `pwd` and `ls` before using `chown -R`. A mistake in the path can change ownership of many unrelated files and may disrupt applications or system services.
+
+## 7. `chmod -R` – Change Permissions Recursively
+
+The `chmod -R` command changes file and directory permissions recursively. The `-R` option applies the specified permission changes throughout the selected directory tree, including its subdirectories and files. For example, `chmod -R 755 mydir/` applies permission mode `755` to the directory and all items contained within it. This means that the owner receives read, write, and execute permissions, while the group and other users receive read and execute permissions. Although this may be suitable for some directories and executable resources, applying `755` indiscriminately to every file can make ordinary text files and sensitive files executable. For this reason, recursive permission changes should be chosen carefully. If you need different permissions for directories and regular files, the `find` command can be combined with `chmod` to handle each type separately. This command is useful for managing permissions across project folders, but incorrect usage can expose data or interfere with application security.
+
+**Examples:**
+
+```bash
+chmod -R 755 mydir/
+chmod -R 700 private/
+ls -l mydir/
+```
+
+**Explanation:**
+- `chmod -R 755 mydir/` – Applies permission mode `755` to the directory tree.
+- `chmod -R 700 private/` – Restricts access to the owner throughout the directory tree, subject to other system and filesystem rules.
+- `ls -l mydir/` – Displays the permissions of the directory's immediate contents.
+
+**Recommended approach for separate file and directory permissions:**
+
+```bash
+find mydir/ -type d -exec chmod 755 {} +
+find mydir/ -type f -exec chmod 644 {} +
+```
+
+The first command sets directories to `755`, allowing the owner to read, write, and traverse them, while allowing group members and others to read and traverse them. The second command sets regular files to `644`, allowing the owner to read and write while giving group members and others read-only access. These are examples rather than universal defaults; private data, scripts, and application files may require different permissions.
+
+**Important Safety Tip:** Do not use `chmod -R 777` as a general solution to permission errors. It grants read, write, and execute permissions to everyone throughout the targeted directory tree, potentially exposing files to unauthorised modification.
+
+---
+
+## Conclusion
+
+Linux file permission and ownership commands are fundamental to managing access, protecting data, and maintaining a secure system. The `ls -l` command helps inspect permissions and ownership, while `chmod` and `chmod +x` control access and executable permissions. The `chown` and `chgrp` commands manage file owners and groups, respectively. Their recursive variants, `chown -R` and `chmod -R`, apply changes across entire directory trees.
+
+Understanding these commands is especially important for Linux system administration, cloud computing, server management, and DevOps. Practise them in a test directory using non-critical files before applying permission or ownership changes to important projects or system resources.
+
+**Best practice:** Inspect permissions before modifying them, use the least access necessary, and double-check paths before executing recursive commands.
