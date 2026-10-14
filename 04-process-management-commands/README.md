@@ -282,13 +282,7 @@ Stop the process
 | `fg` | Bring a background job to foreground |
 | `q` | Quit `top` / `htop` |
 
----
 
-## 📚 References
-
-- [Linux man-pages](https://man7.org/linux/man-pages/)
-- [GNU Coreutils Manual](https://www.gnu.org/software/coreutils/manual/coreutils.html)
-- [GNU Bash Reference](https://www.gnu.org/software/bash/manual/bash.html)
 
 ---
 
