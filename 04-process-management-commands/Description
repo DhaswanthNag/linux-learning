@@ -1,0 +1,328 @@
+# Linux Process Management Commands
+
+## 1. `ps` – Display Running Processes
+
+The `ps` command stands for **Process Status** and is used to display information about processes running in a Linux system. A process is an instance of a program that is currently executing, such as a terminal, text editor, web browser, or background service. The `ps` command helps users identify active processes and inspect details such as process IDs (PIDs), terminal associations, CPU time, and execution status. By default, running `ps` in a terminal usually displays processes associated with the current terminal session rather than every process on the system. Each process has a unique process ID that can be used to monitor or manage it. For example, if a process has PID `1234`, you can use that ID with commands such as `kill` to request that the process terminate. The `ps` command is an important tool for troubleshooting applications, identifying active programs, and understanding how processes operate in Linux.
+
+**Examples:**
+
+```bash
+ps
+ps -f
+ps -p 1234
+```
+
+**Explanation:**
+- `ps` – Displays processes associated with the current terminal.
+- `ps -f` – Displays a fuller listing of the selected processes.
+- `ps -p 1234` – Displays information about the process with PID `1234`, if it exists and is visible to you.
+
+**Sample Output:**
+
+```text
+    PID TTY          TIME CMD
+   2341 pts/0    00:00:00 bash
+   2385 pts/0    00:00:00 ps
+```
+
+In this output, `PID` identifies the process, `TTY` identifies its controlling terminal, `TIME` shows accumulated CPU time, and `CMD` displays the command name.
+
+## 2. `ps aux` – Display All Visible Processes
+
+The `ps aux` command displays a detailed snapshot of processes across the system, including processes that are not attached to the current terminal. It is commonly used by Linux administrators and developers to inspect active applications, background services, and system processes. The output includes the user who owns each process, its process ID, CPU and memory usage, process state, start information, accumulated CPU time, and command name. The `a` option selects processes associated with terminals across users, `u` requests a user-oriented output format, and `x` includes processes without a controlling terminal. Together, these options provide a broad overview of running processes. This command is especially useful when an application becomes unresponsive, system resources appear heavily used, or a background service needs to be identified. Unlike `top`, `ps aux` produces a snapshot at the moment the command is executed rather than continuously refreshing the display.
+
+**Examples:**
+
+```bash
+ps aux
+ps aux | less
+ps aux | grep firefox
+```
+
+**Explanation:**
+- `ps aux` – Displays a detailed list of processes across the system.
+- `ps aux | less` – Displays the results one screen at a time.
+- `ps aux | grep firefox` – Searches the output for lines containing `firefox`.
+
+**Sample Output:**
+
+```text
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1  22500 12000 ?        Ss   10:00   0:02 /sbin/init
+user      1234  2.5  1.2 450000 48000 ?        Sl   10:15   0:10 firefox
+```
+
+The values above are illustrative. `%CPU` represents CPU usage, `%MEM` represents memory usage, `VSZ` is virtual memory size, `RSS` is resident physical memory, and `STAT` indicates the process state.
+
+## 3. `top` – Monitor Processes in Real Time
+
+The `top` command provides a continuously updating view of running processes and overall system resource usage. Unlike `ps`, which displays a snapshot, `top` refreshes its information periodically so that users can observe changing CPU usage, memory consumption, process states, and system load. It is especially useful for diagnosing slow applications, identifying processes consuming excessive resources, and monitoring server performance. The upper section normally displays information about system uptime, load averages, the number of tasks, CPU utilisation, and memory usage. The process list below shows details such as PID, user, priority, CPU percentage, memory percentage, and command name. While `top` is running, users can press keys to interact with the display. For example, pressing `P` typically sorts processes by CPU usage, while pressing `M` sorts by memory usage. Pressing `q` exits the program. This command is widely used in system administration, server troubleshooting, and cloud infrastructure monitoring.
+
+**Examples:**
+
+```bash
+top
+top -u user
+top -p 1234
+```
+
+**Explanation:**
+- `top` – Opens the live process monitor.
+- `top -u user` – Displays processes belonging to the specified username.
+- `top -p 1234` – Monitors the process with PID `1234`.
+
+**Useful keyboard shortcuts:**
+- `P` – Sort by CPU usage.
+- `M` – Sort by memory usage.
+- `k` – Request termination of a selected process by PID.
+- `1` – Toggle individual CPU core statistics on supported displays.
+- `q` – Quit the monitor.
+
+**Practical use case:** If a Linux server becomes slow, `top` can help identify whether a particular process is consuming unusually high CPU or memory resources.
+
+## 4. `htop` – Interactive Process Monitoring
+
+The `htop` command launches an interactive process viewer that provides a more user-friendly alternative to `top`. It presents CPU and memory utilisation using visual meters, displays running processes in a scrollable list, and supports keyboard shortcuts and mouse interaction in compatible terminals. Users can sort processes, search for applications, inspect process details, and request process termination without repeatedly entering separate commands. The visual interface makes it easier for beginners to understand resource usage and for administrators to investigate performance problems. However, `htop` may not be installed by default on every Linux distribution. On Ubuntu or Debian, it can commonly be installed using `sudo apt install htop`. After installation, running `htop` opens the interactive interface. Like other process monitoring tools, its displayed information reflects the system and permissions available to the current user.
+
+**Examples:**
+
+```bash
+htop
+htop -u user
+```
+
+**Explanation:**
+- `htop` – Opens the interactive process monitor.
+- `htop -u user` – Filters the process list by the specified user on supported versions.
+
+**Common controls:**
+- Arrow keys – Navigate through the process list.
+- `F3` – Search for a process in many versions.
+- `F4` – Filter processes in many versions.
+- `F9` – Select a signal to send to a process.
+- `F10` or `q` – Exit, depending on the version and configuration.
+
+**Note:** Keyboard shortcuts may vary slightly by version. Use the on-screen function-key guide for the exact controls available on your system.
+
+## 5. `kill` – Send a Signal to a Process
+
+The `kill` command sends a signal to a process identified by its process ID (PID). Despite its name, it does not always terminate a process immediately; the outcome depends on the signal sent and how the process responds. By default, `kill 1234` sends the `TERM` signal, which politely requests that the process with PID `1234` terminate. This gives the application an opportunity to save data and clean up resources before exiting. If the process does not respond to a termination request, an administrator may consider using the `KILL` signal, specified as `-9`, which cannot be caught or ignored by the target process. However, forceful termination can result in unsaved work or incomplete cleanup. The `kill` command is useful when applications become unresponsive, background tasks need to be stopped, or a process must be managed from the terminal. You generally need to own the process or have sufficient privileges to signal it.
+
+**Examples:**
+
+```bash
+kill 1234
+kill -TERM 1234
+kill -9 1234
+```
+
+**Explanation:**
+- `kill 1234` – Sends the default `TERM` signal to PID `1234`.
+- `kill -TERM 1234` – Explicitly requests graceful termination.
+- `kill -9 1234` – Sends `SIGKILL`, forcing the process to stop if the kernel can deliver the signal.
+
+**Important:** Always verify the PID before sending a signal. Prefer `kill PID` before considering `kill -9 PID`, because graceful termination gives applications a chance to exit cleanly.
+
+## 6. `killall` – Terminate Processes by Name
+
+The `killall` command sends a signal to processes matching a specified process name. Instead of identifying an individual PID, you can specify the name of the application you want to stop. For example, `killall firefox` requests termination of processes whose names match `firefox` on systems where the command uses the common Linux `psmisc` implementation. This can be useful when an application has multiple processes or when its PID changes between sessions. By default, `killall` generally sends the `TERM` signal, allowing matching processes to terminate gracefully. You can specify another signal when necessary, such as `killall -TERM firefox`. The command's behaviour can vary between operating systems and implementations, so it is important to confirm that the command targets the intended application. On Linux, it is commonly provided by the `psmisc` package.
+
+**Examples:**
+
+```bash
+killall firefox
+killall -TERM firefox
+killall -i firefox
+```
+
+**Explanation:**
+- `killall firefox` – Requests termination of processes named `firefox`.
+- `killall -TERM firefox` – Explicitly sends the termination signal.
+- `killall -i firefox` – Requests interactive confirmation before terminating matching processes on implementations that support this option.
+
+**Practical use case:** If several Firefox processes are running and you want to close them from the terminal, `killall firefox` can be convenient. Save important work before using it, as matching browser processes may close together.
+
+**Important:** Verify the implementation and target name before using `killall`. Do not confuse Linux's common `psmisc` command with similarly named commands on other operating systems.
+
+## 7. `pkill` – Terminate Processes by Name or Pattern
+
+The `pkill` command sends a signal to processes selected by name or by a pattern, making it useful when you do not know the exact process ID. It is similar to `killall`, but commonly supports pattern matching and additional selection criteria. For example, `pkill chrome` sends the default `TERM` signal to processes whose names match the specified pattern, subject to the matching rules and permissions. You can explicitly select a signal with `-TERM` or use options such as `-u` to select processes owned by a particular user. Because patterns may match more than one process, you should inspect the running processes before using a command that could terminate multiple applications. The `pkill` command is particularly helpful for scripting, process cleanup, and managing applications from a terminal without manually looking up every PID.
+
+**Examples:**
+
+```bash
+pkill chrome
+pkill -TERM firefox
+pkill -u user
+```
+
+**Explanation:**
+- `pkill chrome` – Sends the default termination signal to matching processes.
+- `pkill -TERM firefox` – Explicitly sends the `TERM` signal to matching processes.
+- `pkill -u user` – Sends the default signal to processes owned by `user`; use this carefully because it can affect many processes.
+
+**Safer inspection approach:**
+
+```bash
+pgrep -a chrome
+ps aux | grep '[c]hrome'
+```
+
+These commands help identify matching processes before you attempt to terminate them.
+
+**Important:** A process-name pattern can match multiple processes. Check the targets first, particularly when using user filters or broader patterns.
+
+## 8. `jobs` – Display Background and Stopped Jobs
+
+The `jobs` command displays jobs managed by the current shell session. A shell job is a command or pipeline started from that shell and placed in the background or suspended, often using job-control features. For example, if you execute `sleep 300 &`, the command runs in the background and the shell usually displays a job number and a PID. Running `jobs` then shows the job's identifier and state. A job may be running, stopped, or completed, depending on its current status. Job numbers such as `%1` are shell job identifiers, not operating-system process IDs. This distinction is important because commands such as `bg` and `fg` commonly use job identifiers, while `kill` normally accepts a PID or, in shells that support it, a job specification. The `jobs` command is useful when running multiple tasks from one terminal and managing them without opening separate terminal windows.
+
+**Examples:**
+
+```bash
+sleep 300 &
+jobs
+jobs -l
+```
+
+**Sample Output:**
+
+```text
+[1]+  Running    sleep 300 &
+```
+
+**Explanation:**
+- `sleep 300 &` – Starts a command that waits for 300 seconds in the background.
+- `jobs` – Lists jobs managed by the current shell.
+- `jobs -l` – Includes process IDs in the job listing in shells that support this option.
+
+**Practical use case:** When compiling software, downloading files, or running long tasks from a terminal, `jobs` helps you see which shell-managed tasks are running or stopped.
+
+## 9. `bg` – Resume a Job in the Background
+
+The `bg` command resumes a stopped job and allows it to continue running in the background without taking control of the terminal. It is a shell built-in command used with job control. For example, if you start a long-running foreground command and press `Ctrl + Z`, the shell suspends it. You can then run `bg %1` to resume job number 1 in the background, assuming that the job exists and the shell supports job control. A background job can continue running while you enter other commands in the same terminal. However, commands that require interactive terminal input may not work properly in the background and can be suspended again if they attempt to read from the controlling terminal. The `bg` command is helpful when a task takes a long time and you want to continue using the shell instead of waiting for it to finish in the foreground.
+
+**Examples:**
+
+```bash
+sleep 300
+```
+
+Press `Ctrl + Z` to suspend the command, then run:
+
+```bash
+jobs
+bg %1
+jobs
+```
+
+**Explanation:**
+- `Ctrl + Z` – Suspends the foreground job.
+- `jobs` – Shows the suspended job and its job number.
+- `bg %1` – Resumes job number 1 in the background.
+- `jobs` – Shows the updated state of the job.
+
+**Note:** The `%1` identifier refers to shell job number 1. Your job number may differ, so check the output of `jobs` before using `bg`.
+
+## 10. `fg` – Bring a Job to the Foreground
+
+The `fg` command brings a background or stopped job into the foreground of the current shell. A foreground job occupies the terminal until it finishes, exits, or is suspended, allowing it to interact with the terminal when necessary. For example, if a long-running command is executing in the background as job number 1, entering `fg %1` brings that job back to the foreground. If the job was stopped, the shell normally resumes it when bringing it forward. This is useful when you need to interact with a program, monitor its output directly, or allow it to receive keyboard input. The `fg` command works with jobs managed by the current shell, so it cannot generally bring an arbitrary process started by another terminal into the foreground.
+
+**Examples:**
+
+```bash
+sleep 300 &
+jobs
+fg %1
+```
+
+**Explanation:**
+- `sleep 300 &` – Starts a background job.
+- `jobs` – Displays the available job identifiers.
+- `fg %1` – Brings job number 1 into the foreground.
+
+Once the command is running in the foreground, you can wait for it to complete or suspend it with `Ctrl + Z` if appropriate.
+
+**Practical use case:** If you start a command in the background but later need to interact with it directly, `fg` lets you return it to the terminal's foreground.
+
+## 11. `nice` – Start a Process with a Scheduling Priority
+
+The `nice` command starts a program with a specified nice value, which influences its CPU scheduling priority under the standard Linux scheduling policies. Nice values usually range from `-20` to `19`. Lower values generally indicate a higher scheduling priority, while higher values indicate a lower scheduling priority. For example, `nice -n 10 command` starts `command` with a nice value adjusted by 10 relative to the invoking process's inherited nice value, subject to the system's permissions and limits. A less favourable nice value is useful when running background tasks that should yield CPU time to more important work, such as interactive applications or services. The nice value is not a strict guarantee of CPU allocation; actual scheduling depends on system load, scheduling policies, resource controls, and other factors. Ordinary users can generally increase the nice value to lower a process's scheduling priority, while lowering the nice value to obtain higher priority usually requires elevated privileges.
+
+**Examples:**
+
+```bash
+nice -n 10 sleep 300
+nice -n 15 ./backup.sh
+nice -n 5 command
+```
+
+**Explanation:**
+- `nice -n 10 sleep 300` – Starts `sleep` with a nice value adjusted by 10.
+- `nice -n 15 ./backup.sh` – Starts a backup script with a less favourable CPU scheduling priority.
+- `nice -n 5 command` – Starts the specified command with a nice adjustment of 5.
+
+**Practical use case:** You can run a CPU-intensive backup, compression, or data-processing task with a higher nice value so that it is less likely to compete aggressively with interactive work.
+
+**Note:** `command` is a placeholder. Replace it with the actual executable and its arguments. Nice values influence scheduling priority; they do not directly limit CPU usage to a fixed percentage.
+
+## 12. `renice` – Change the Nice Value of an Existing Process
+
+The `renice` command changes the nice value of a process that is already running. Unlike `nice`, which sets a scheduling adjustment when launching a new command, `renice` modifies the scheduling priority of an existing process. For example, `renice -n 10 -p 1234` requests that the nice value of PID `1234` be set to 10 on modern Linux systems using the usual `renice` semantics. Increasing the nice value generally lowers the process's CPU scheduling priority, making it useful for background tasks that are consuming too many resources. Reducing the nice value generally increases scheduling priority, but typically requires elevated privileges. The command can be applied to individual processes or, with supported options, selected users or process groups. It is important to verify the PID before making changes and understand that a nice-value adjustment does not guarantee a particular amount of CPU time.
+
+**Examples:**
+
+```bash
+renice -n 10 -p 1234
+sudo renice -n 5 -p 1234
+ps -o pid,ni,comm -p 1234
+```
+
+**Explanation:**
+- `renice -n 10 -p 1234` – Requests a nice value of 10 for PID `1234`, subject to permissions.
+- `sudo renice -n 5 -p 1234` – Requests a nice value of 5 with elevated privileges.
+- `ps -o pid,ni,comm -p 1234` – Displays the PID, current nice value, and command name for verification.
+
+**Practical use case:** If a data-processing job is using CPU resources while you need the machine for interactive work, increasing its nice value may help it yield more readily to other tasks.
+
+**Important:** Check the existing nice value and verify the target process before applying changes. Privileges and system policies determine which nice-value adjustments are allowed.
+
+## 13. `nohup` – Keep a Command Running After Logout
+
+The `nohup` command runs another command with the hangup signal (`SIGHUP`) ignored, helping it continue running when the terminal session ends or the user logs out. It is commonly used for long-running tasks that should not depend on an interactive terminal remaining open. For example, `nohup command &` starts a command in the background and allows it to continue despite a hangup signal. When standard output is connected to a terminal and has not been redirected, `nohup` typically redirects output to a file named `nohup.out`; standard error is usually handled similarly. You can specify your own output file with shell redirection. However, `nohup` is not a complete process supervisor and does not guarantee that a task will survive every form of session termination, system shutdown, reboot, or process-management policy. For production services, tools such as `systemd`, `tmux`, or `screen` may be more appropriate, depending on the requirements.
+
+**Examples:**
+
+```bash
+nohup ./backup.sh &
+nohup ./backup.sh > backup.log 2>&1 &
+nohup sleep 300 > sleep.log 2>&1 &
+```
+
+**Explanation:**
+- `nohup ./backup.sh &` – Starts the script in the background while ignoring `SIGHUP`; output normally goes to `nohup.out` when appropriate.
+- `nohup ./backup.sh > backup.log 2>&1 &` – Redirects standard output and standard error to `backup.log` and starts the command in the background.
+- `nohup sleep 300 > sleep.log 2>&1 &` – Runs a five-minute sleep command with output redirected to `sleep.log`.
+
+**Understanding `> backup.log 2>&1`:**
+- `>` redirects standard output to the specified file, creating or overwriting it.
+- `2>&1` redirects standard error to the same destination as standard output.
+
+**Practical use case:** A long-running data export, backup, or report-generation script can be started with `nohup` when you need it to continue after disconnecting from an SSH session.
+
+**Important:** `nohup` does not automatically restart a failed process or guarantee survival after a reboot. Check the process and its logs to confirm that the task is still running and has completed successfully.
+
+---
+
+## Conclusion
+
+Linux process management commands help users inspect running applications, monitor system performance, control background tasks, and manage CPU scheduling priority. The `ps` and `ps aux` commands display process information, while `top` and `htop` provide live monitoring. The `kill`, `killall`, and `pkill` commands send signals to processes. The `jobs`, `bg`, and `fg` commands manage jobs in the current shell, while `nice` and `renice` influence process scheduling priority. Finally, `nohup` helps commands continue running when a terminal session ends.
+
+These commands are essential for Linux system administration, cloud computing, server maintenance, and DevOps workflows. Practising them with simple test processes will help you understand process IDs, job control, resource monitoring, and background execution.
+
+**Best practices:**
+- Inspect a process before terminating it.
+- Prefer graceful termination with `TERM` before using `KILL`.
+- Verify job numbers with `jobs` before using `bg` or `fg`.
+- Use higher nice values for non-urgent CPU-intensive tasks when appropriate.
+- Redirect output to log files for long-running background commands.
+- Use a service manager or process supervisor for applications that require reliable startup, restart, and lifecycle management.
