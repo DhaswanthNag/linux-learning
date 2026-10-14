@@ -317,7 +317,6 @@ nohup sleep 300 > sleep.log 2>&1 &
 
 Linux process management commands help users inspect running applications, monitor system performance, control background tasks, and manage CPU scheduling priority. The `ps` and `ps aux` commands display process information, while `top` and `htop` provide live monitoring. The `kill`, `killall`, and `pkill` commands send signals to processes. The `jobs`, `bg`, and `fg` commands manage jobs in the current shell, while `nice` and `renice` influence process scheduling priority. Finally, `nohup` helps commands continue running when a terminal session ends.
 
-These commands are essential for Linux system administration, cloud computing, server maintenance, and DevOps workflows. Practising them with simple test processes will help you understand process IDs, job control, resource monitoring, and background execution.
 
 **Best practices:**
 - Inspect a process before terminating it.
