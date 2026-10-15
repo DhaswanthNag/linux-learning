@@ -315,7 +315,6 @@ This exercise shows your location, lists files, creates a practice directory, wr
 2. Use `ls` to inspect a directory before running other commands in it.
 3. Read a command's manual page with `man command` when you are unsure about an option.
 4. Be careful with redirection operators such as `>` because they can overwrite files.
-5. Do not run commands copied from the internet unless you understand what they do.
 
 ---
 
