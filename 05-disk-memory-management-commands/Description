@@ -1,0 +1,276 @@
+# Linux Disk and Storage Management Commands
+
+## 1. `df -h` – Display Disk Space Usage
+
+The `df -h` command displays the amount of disk space used and available on mounted filesystems in a human-readable format. The `df` command stands for **Disk Free**, while the `-h` option converts storage values into easily understandable units such as KB, MB, GB, and TB. It helps users monitor storage capacity, identify filesystems that are running out of space, and determine whether a disk or partition requires cleanup or additional storage. The output typically includes the filesystem name, total size, used space, available space, percentage of space used, and mount point. For example, if a filesystem has a total capacity of 100 GB and 80 GB is occupied, the usage percentage will be approximately 80%. This command is particularly useful when managing Linux servers, cloud virtual machines, development environments, and systems that store large files or application logs. Running `df -h` periodically can help prevent storage-related problems that may affect applications, databases, or system operations.
+
+**Examples:**
+
+```bash
+df -h
+df -h /home
+df -h /
+```
+
+**Explanation:**
+- `df -h` – Displays disk usage for mounted filesystems in human-readable units.
+- `df -h /home` – Displays the filesystem space information for the location containing `/home`.
+- `df -h /` – Displays usage information for the filesystem containing the root directory.
+
+**Sample Output:**
+
+```text
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2       100G   65G   35G  65% /
+/dev/sda3       200G  120G   80G  60% /home
+```
+
+*Note: The device names and storage values above are illustrative. Actual output depends on the system's disk configuration.*
+
+## 2. `du -sh` – Display Directory Size
+
+The `du -sh` command displays the total disk space occupied by a specified directory or file in a human-readable format. The `du` command stands for **Disk Usage**, the `-s` option produces a summary instead of listing every subdirectory, and the `-h` option displays the result using convenient units such as KB, MB, or GB. For example, `du -sh /home/user` displays the total disk usage attributed to the specified user's directory. This command is useful for identifying large directories, checking the storage requirements of projects, examining application data, and locating areas where cleanup might be necessary. Unlike `df`, which reports free and used space at the filesystem level, `du` calculates the space attributed to files and directories that it can access. Therefore, their reported values may differ because of filesystem metadata, reserved blocks, inaccessible files, sparse files, or deleted files that are still held open by running processes. The `du -sh` command is especially valuable when troubleshooting storage shortages on Linux systems.
+
+**Examples:**
+
+```bash
+du -sh /home/user
+du -sh .
+du -sh *
+du -sh /var/log
+```
+
+**Explanation:**
+- `du -sh /home/user` – Displays the total disk usage of the specified home directory.
+- `du -sh .` – Displays the total disk usage of the current directory.
+- `du -sh *` – Displays the sizes of matching items in the current directory; hidden items are not normally included by the shell's `*` pattern.
+- `du -sh /var/log` – Displays the total disk usage of the system log directory, subject to permissions.
+
+**Sample Output:**
+
+```text
+2.4G    /home/user
+850M    ./Documents
+1.2G    ./Projects
+320M    ./Downloads
+```
+
+*Note: The displayed sizes are examples. Actual values depend on the files stored in each location.*
+
+## 3. `lsblk` – List Block Devices and Partitions
+
+The `lsblk` command stands for **List Block Devices** and displays information about block storage devices connected to a Linux system. Block devices include hard disk drives, solid-state drives, USB storage devices, and their partitions. The command presents storage devices in a tree-like structure, making it easier to understand how disks and partitions are organised. Its output commonly includes device names, major and minor device numbers, device sizes, device types, and mount points. For example, a disk might appear as `/dev/sda`, with partitions such as `/dev/sda1` and `/dev/sda2` displayed underneath it. This hierarchical view helps users identify available storage devices before performing operations such as mounting a filesystem or examining partition layouts. The `lsblk` command is particularly useful for system administration, disk troubleshooting, virtual machine management, and preparing additional storage for use. It normally provides a quick overview without modifying any disk data.
+
+**Examples:**
+
+```bash
+lsblk
+lsblk -d
+lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS
+```
+
+**Explanation:**
+- `lsblk` – Displays block devices and their partition relationships.
+- `lsblk -d` – Displays whole devices without listing their partitions.
+- `lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS` – Displays selected columns, including device names, sizes, types, and mount points.
+
+**Sample Output:**
+
+```text
+NAME      SIZE TYPE MOUNTPOINTS
+sda       100G disk
+├─sda1      1G part /boot
+└─sda2     99G part /
+sdb       500G disk
+└─sdb1    500G part /data
+```
+
+*Note: The device names, sizes, and mount points are illustrative and may differ from your system.*
+
+## 4. `lsblk -f` – Display Filesystem Information
+
+The `lsblk -f` command displays block devices together with filesystem-related information. It extends the basic `lsblk` output by showing details such as filesystem type, filesystem label, universally unique identifier (UUID), and mount point. This information is useful when identifying which partition contains a particular filesystem and determining how storage devices are currently mounted. For example, a partition may use the `ext4` filesystem, which is commonly used on Linux, while removable drives may use filesystems such as `vfat`, `exfat`, or `ntfs`. The UUID can help identify a filesystem consistently even when device names change, which is useful when configuring persistent mounts in `/etc/fstab`. Running `lsblk -f` before mounting a disk can help you verify the correct device and filesystem. This command is particularly useful for storage troubleshooting, external drive management, and configuring disks on Linux servers.
+
+**Examples:**
+
+```bash
+lsblk -f
+lsblk -f /dev/sda
+lsblk -o NAME,FSTYPE,LABEL,UUID,MOUNTPOINTS
+```
+
+**Explanation:**
+- `lsblk -f` – Displays filesystems, labels, UUIDs, and mount points for block devices.
+- `lsblk -f /dev/sda` – Requests filesystem information for the specified device and its relevant block-device entries.
+- `lsblk -o NAME,FSTYPE,LABEL,UUID,MOUNTPOINTS` – Displays selected filesystem and device details.
+
+**Sample Output:**
+
+```text
+NAME   FSTYPE LABEL UUID                                 MOUNTPOINTS
+sda
+├─sda1 ext4         11111111-2222-3333-4444-555555555555 /boot
+└─sda2 ext4         aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee /
+sdb
+└─sdb1 ext4   DATA  99999999-8888-7777-6666-555555555555 /data
+```
+
+*Note: UUIDs shown here are examples, not real device identifiers.*
+
+## 5. `blkid` – Display Filesystem UUIDs and Types
+
+The `blkid` command identifies block devices and displays information about their filesystems or other recognised storage signatures. It commonly reports filesystem types, UUIDs, labels, and other identifying attributes. A UUID is a unique identifier associated with a filesystem, while a label is a human-readable name that may be assigned to it. These identifiers are useful when configuring persistent storage mounts, especially when device names such as `/dev/sda1` or `/dev/sdb1` may change between system boots or hardware configurations. For example, running `sudo blkid` displays identifying information for recognised block devices that the command can access. You can also specify a particular partition to inspect it individually. This command is commonly used alongside `lsblk -f` when preparing a disk for mounting or verifying filesystem details. It primarily reads device metadata and does not normally modify the filesystem.
+
+**Examples:**
+
+```bash
+sudo blkid
+sudo blkid /dev/sdb1
+blkid -o list
+```
+
+**Explanation:**
+- `sudo blkid` – Displays filesystem identification information for recognised devices.
+- `sudo blkid /dev/sdb1` – Displays identifying information for a specific partition.
+- `blkid -o list` – Requests a list-style output format on supported versions.
+
+**Sample Output:**
+
+```text
+/dev/sda2: UUID="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" TYPE="ext4"
+/dev/sdb1: LABEL="DATA" UUID="99999999-8888-7777-6666-555555555555" TYPE="ext4"
+```
+
+**Practical use case:** You can use a filesystem UUID to identify a partition in `/etc/fstab`, helping Linux mount the intended filesystem consistently at startup.
+
+*Important: Confirm the UUID and filesystem type before adding or changing persistent mount configuration.*
+
+## 6. `mount` – Attach a Filesystem to a Directory
+
+The `mount` command makes a filesystem accessible through a directory known as a **mount point**. Linux organises filesystems into a single directory hierarchy, so a separate disk or partition must generally be mounted before its contents can be accessed through a chosen location. For example, `sudo mount /dev/sdc1 /mnt` attempts to mount the filesystem on `/dev/sdc1` at `/mnt`. The device must exist, the filesystem must be supported, and the mount point must be an appropriate directory. If the filesystem is not already formatted or contains an unrecognised filesystem, the operation may fail. You can specify the filesystem type using the `-t` option when necessary, and the `-o` option can set mount options such as read-only access. Mounting a device does not inherently erase its contents, but writing to the mounted filesystem can change its data. The `mount` command is commonly used to access external drives, additional data disks, removable storage, and filesystems on servers.
+
+**Examples:**
+
+```bash
+lsblk -f
+sudo mkdir -p /mnt/data
+sudo mount /dev/sdc1 /mnt/data
+findmnt /mnt/data
+```
+
+**Explanation:**
+- `lsblk -f` – Helps identify the device and its filesystem before mounting.
+- `sudo mkdir -p /mnt/data` – Creates the mount-point directory if needed.
+- `sudo mount /dev/sdc1 /mnt/data` – Attempts to mount the filesystem on `/dev/sdc1` at `/mnt/data`.
+- `findmnt /mnt/data` – Displays mount information for the specified path.
+
+**Read-only mounting example:**
+
+```bash
+sudo mount -o ro /dev/sdc1 /mnt/data
+```
+
+The `ro` option requests read-only mounting, which can help prevent filesystem writes during inspection.
+
+**Important Safety Tip:** Never assume a device name refers to a particular disk without checking it. Verify the device using `lsblk -f` and avoid formatting or writing to a disk that may contain important data. If you are dealing with a damaged filesystem, use an appropriate recovery procedure rather than repeatedly attempting to mount it.
+
+## 7. `umount` – Unmount a Filesystem
+
+The `umount` command detaches a mounted filesystem from the Linux directory hierarchy. It is used when you have finished accessing an external drive, removable device, secondary disk, or other mounted filesystem and want to disconnect it safely. For example, `sudo umount /mnt/data` attempts to unmount the filesystem mounted at `/mnt/data`. Before unmounting, ensure that applications are not actively using files on the filesystem and that your terminal is not currently inside the mount point. If the filesystem is busy, Linux may refuse to unmount it because a process still has open files or is using that directory as its working directory. Commands such as `findmnt` can verify the mount location, while `fuser` can help identify processes using it. After successful unmounting, the filesystem is no longer accessible through that mount point until it is mounted again. Unmounting a filesystem before disconnecting removable storage helps reduce the risk of incomplete writes and data corruption.
+
+**Examples:**
+
+```bash
+findmnt /mnt/data
+sudo umount /mnt/data
+lsblk -f
+```
+
+**Explanation:**
+- `findmnt /mnt/data` – Checks whether a filesystem is mounted at the specified location.
+- `sudo umount /mnt/data` – Attempts to unmount the filesystem from that directory.
+- `lsblk -f` – Helps verify the device's updated mount-point information.
+
+**If the filesystem is busy:**
+
+```bash
+fuser -vm /mnt/data
+```
+
+This command can show processes using the mount point. Close the relevant applications or leave the directory before trying `umount` again.
+
+**Important:** The command is spelled `umount`, not `unmount`. Avoid forceful or lazy unmount options unless you understand the risks and the situation requires them.
+
+## 8. `fdisk -l` – List Disk Partitions
+
+The `fdisk -l` command lists partition tables and partition information for detected disks. The `fdisk` utility is commonly used to inspect and manage disk partition layouts, while `-l` requests a listing rather than opening the interactive partition editor. With elevated privileges, `sudo fdisk -l` can display information about available disks, including device names, disk sizes, partition numbers, partition sizes, partition types, and partition identifiers. This command is useful when preparing additional storage, investigating partition layouts, checking whether a disk has existing partitions, and troubleshooting storage configuration. For example, a disk named `/dev/sda` may contain several partitions such as `/dev/sda1` and `/dev/sda2`. Listing partitions does not itself modify the partition table. However, the interactive features of `fdisk` can make significant changes, so users should be careful not to enter modification commands accidentally. Always identify the correct disk before making partition changes.
+
+**Examples:**
+
+```bash
+sudo fdisk -l
+sudo fdisk -l /dev/sda
+```
+
+**Explanation:**
+- `sudo fdisk -l` – Lists partition information for detected disks.
+- `sudo fdisk -l /dev/sda` – Requests partition information for the specified disk.
+
+**Sample Output:**
+
+```text
+Disk /dev/sda: 100 GiB
+Device      Start       End   Sectors  Size Type
+/dev/sda1    2048   2099199   2097152    1G Linux filesystem
+/dev/sda2 2099200 209715199 207616000   99G Linux filesystem
+```
+
+*Note: The output is illustrative. Actual disk sizes, partition boundaries, and partition types depend on the system.*
+
+**Important Safety Tip:** Use `fdisk -l` for inspection when learning. Do not modify or delete partitions unless you have verified the target disk and backed up important data.
+
+## 9. `parted -l` – Display Partition Information
+
+The `parted -l` command uses the GNU Parted utility to list available disks and their partition layouts. It provides information such as disk size, partition table type, logical and physical sector sizes, partition boundaries, and filesystem-related details when available. The `parted` utility supports partition tables such as GPT and MBR, making it useful for examining both modern and traditional disk configurations. For example, `sudo parted -l` displays partition information for detected disks, helping administrators understand how storage devices are organised before making configuration changes. Like `fdisk -l`, the listing operation is intended for inspection rather than modification. GNU Parted also provides interactive and command-line features for creating, resizing, and deleting partitions, but those operations require careful planning because mistakes can make data inaccessible. This command is especially useful when working with large disks, server storage, virtual machines, and systems that use GPT partition tables.
+
+**Examples:**
+
+```bash
+sudo parted -l
+sudo parted /dev/sda print
+```
+
+**Explanation:**
+- `sudo parted -l` – Lists partition layouts for detected disks.
+- `sudo parted /dev/sda print` – Displays the partition table for the specified disk.
+
+**Sample Output:**
+
+```text
+Model: Virtual Disk (scsi)
+Disk /dev/sda: 107GB
+Partition Table: gpt
+Number  Start   End     Size    File system  Name
+ 1      1049kB  1074MB  1073MB  ext4
+ 2      1074MB  107GB   106GB   ext4
+```
+
+*Note: This is an illustrative example; actual output varies by disk, partition table, and filesystem.*
+
+**Important:** Listing partition information is generally safe, but commands that create, resize, or delete partitions can cause data loss. Always verify the device and back up important files before performing partition-management operations.
+
+---
+
+## Conclusion
+
+Linux disk and storage management commands help users monitor storage capacity, understand disk layouts, identify filesystems, and safely access additional storage devices. The `df -h` command reports filesystem space usage, while `du -sh` measures the disk usage attributed to files and directories. The `lsblk` and `lsblk -f` commands display block devices and filesystem details, while `blkid` identifies filesystems using attributes such as UUIDs and labels. The `mount` and `umount` commands attach and detach filesystems, and `fdisk -l` and `parted -l` provide information about disk partition layouts.
+
+These commands are important for Linux system administration, cloud computing, server maintenance, virtual machine management, and DevOps. Practising them in a test environment will help you understand how Linux handles storage and how to troubleshoot common disk-space and mounting issues.
+
+**Best practices:**
+- Check available disk space with `df -h` before installing software or copying large files.
+- Use `du -sh` to identify directories that consume significant storage.
+- Verify disk names and filesystem details with `lsblk -f` and `blkid`.
+- Unmount removable storage before disconnecting it.
+- Use partition-listing commands before attempting any disk modification.
+- Back up important data before changing partition tables or formatting filesystems.
