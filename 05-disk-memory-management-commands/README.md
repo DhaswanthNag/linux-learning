@@ -260,7 +260,6 @@ swapon --show  → Active swap
 /proc/meminfo  → Detailed memory information
 ```
 
----
 
 ## 📚 References
 
