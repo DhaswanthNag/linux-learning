@@ -238,8 +238,6 @@ hostname     → Show hostname
 dig          → DNS lookup
 ```
 
----
-
 ## 📚 References
 
 - [Linux man-pages](https://man7.org/linux/man-pages/)
@@ -247,7 +245,6 @@ dig          → DNS lookup
 - [OpenSSH](https://www.openssh.com/)
 - [curl](https://curl.se/)
 
----
 
 ⭐ If this guide helped you learn Linux, consider starring the repository!
 
