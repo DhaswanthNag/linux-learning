@@ -1,0 +1,249 @@
+# Linux Networking Commands
+
+Linux networking commands help users inspect network interfaces, test connectivity, troubleshoot network problems, transfer files, connect to remote systems, and investigate DNS records. These commands are useful for Linux system administration, cloud engineering, server management, and network troubleshooting.
+
+## 1. `ip a` – Display IP Addresses and Network Interfaces
+
+The `ip a` command displays information about the network interfaces available on a Linux system, including their names, IP addresses, MAC addresses, and operational states. It is part of the modern `iproute2` networking utility and is commonly used instead of the older `ifconfig` command. Network interfaces may include Ethernet connections, Wi-Fi adapters, loopback interfaces, and virtual network adapters. The output helps administrators determine whether an interface is active and which IP address has been assigned to it. The command `ip addr show` provides the same information, while `ip -br a` displays a shorter summary.
+
+**Example:**
+
+```bash
+ip a
+```
+
+**Sample output:**
+
+```text
+1: lo: <LOOPBACK,UP,LOWER_UP>
+    inet 127.0.0.1/8
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP>
+    inet 192.168.1.10/24
+```
+
+In this example, `lo` is the loopback interface used for local communication, while `eth0` represents a network interface with the IP address `192.168.1.10`. The exact interface names and addresses depend on the system.
+
+## 2. `ping` – Test Network Connectivity
+
+The `ping` command tests whether a destination can be reached over an IP network by sending ICMP Echo Request packets and waiting for replies. It helps diagnose connectivity problems, measure round-trip response times, and identify packet loss. For example, pinging a domain name also tests whether DNS resolution works well enough to identify the destination's IP address. If the command receives replies, the destination is responding to those requests; however, a failed ping does not always mean the host is unavailable because firewalls and network policies may block ICMP traffic. On many Linux systems, pressing `Ctrl + C` stops a continuous ping, while `-c` limits the number of requests.
+
+**Example:**
+
+```bash
+ping -c 4 google.com
+```
+
+**Sample output:**
+
+```text
+64 bytes from ...: icmp_seq=1 ttl=... time=...
+64 bytes from ...: icmp_seq=2 ttl=... time=...
+4 packets transmitted, 4 received, 0% packet loss
+```
+
+The command sends four requests and summarizes the replies, packet loss, and response times. Actual results depend on the network connection and destination.
+
+## 3. `traceroute` – Trace the Route to a Destination
+
+The `traceroute` command identifies the intermediate network hops that packets may travel through to reach a destination. It is useful for investigating routing problems, delays, and possible points where traffic stops receiving responses. The command generally works by sending packets with gradually increasing TTL (Time To Live) values, causing intermediate routers to return messages when the TTL expires. Each hop is displayed with its response time when a reply is received. Some routers do not respond to traceroute probes, so asterisks in the output do not necessarily indicate a network failure. The command may need to be installed separately on some Linux distributions, and alternative implementations can use different probe methods.
+
+**Example:**
+
+```bash
+traceroute google.com
+```
+
+**Sample output:**
+
+```text
+traceroute to google.com (...)
+1  192.168.1.1   ... ms
+2  ...           ... ms
+3  ...           ... ms
+```
+
+The first hop is often the local router or gateway, although this depends on the network setup. Each subsequent line represents another hop that responded to the probes.
+
+## 4. `ss` – Display Socket and Network Connections
+
+The `ss` command displays socket information, including listening ports, active connections, and TCP or UDP sockets. It is a modern utility that replaces many common uses of `netstat` and is often available by default on Linux systems. Administrators use it to check which services are listening for connections and investigate network-related problems. The `-t` option selects TCP sockets, `-u` selects UDP sockets, `-l` displays listening sockets, and `-n` displays numeric addresses and port numbers instead of resolving names. The `-p` option can display the associated process when permissions and system support allow it.
+
+**Example:**
+
+```bash
+ss -tuln
+```
+
+**Sample output:**
+
+```text
+Netid State  Local Address:Port
+tcp   LISTEN 0.0.0.0:22
+tcp   LISTEN 0.0.0.0:80
+udp   UNCONN 0.0.0.0:68
+```
+
+In this example, TCP ports 22 and 80 are listening on all IPv4 interfaces. Port 22 is commonly used by SSH, and port 80 is commonly used by HTTP services. The exact ports depend on the services running on the machine.
+
+## 5. `curl` – Transfer Data to or from a Server
+
+The `curl` command transfers data using URLs and supports protocols such as HTTP, HTTPS, FTP, and others, depending on the installed build. It is widely used to test web servers, inspect HTTP responses, call APIs, download content, and troubleshoot web applications. Running `curl` with a URL normally displays the response body in the terminal. The `-I` option requests response headers, `-o` saves the response to a specified filename, and `-L` follows HTTP redirects. Developers and cloud engineers frequently use `curl` to verify whether an application endpoint is reachable and to inspect the response returned by a server.
+
+**Example:**
+
+```bash
+curl https://example.com
+```
+
+To display only the response headers:
+
+```bash
+curl -I https://example.com
+```
+
+To save the response to a file:
+
+```bash
+curl -L -o page.html https://example.com
+```
+
+The first command displays the server's response body, the second requests headers, and the third follows redirects and saves the response as `page.html`. The returned content depends on the server.
+
+## 6. `wget` – Download Files from the Internet
+
+The `wget` command downloads files from web servers using supported protocols, commonly HTTP and HTTPS. It is useful for downloading installers, archives, documents, configuration files, and other resources from the command line without opening a browser. By default, `wget` usually saves a downloaded file using the filename provided by the server or URL. It can also resume certain interrupted downloads, retrieve multiple URLs, and work in scripts. The `-O` option specifies the output filename, while `-c` attempts to continue a partially downloaded file when the server supports resuming.
+
+**Example:**
+
+```bash
+wget https://example.com/file.zip
+```
+
+To save the download with a different filename:
+
+```bash
+wget -O myfile.zip https://example.com/file.zip
+```
+
+To attempt to resume an interrupted download:
+
+```bash
+wget -c https://example.com/file.zip
+```
+
+These commands download the specified resource, save it under the chosen name, or attempt to resume an earlier download. Always verify that a download source is trustworthy before executing downloaded programs or scripts.
+
+## 7. `ssh` – Connect Securely to a Remote System
+
+The `ssh` command, which stands for Secure Shell, provides an encrypted connection to a remote computer over a network. It allows users to log in to remote Linux servers, execute commands, administer cloud instances, and securely manage systems without being physically present. The usual syntax includes a username and a hostname or IP address. SSH commonly uses TCP port 22, although a server can be configured to use another port. Authentication may use a password or SSH keys, depending on the server's configuration. For a non-default port, the `-p` option specifies the port number. The remote server must be reachable and configured to accept SSH connections.
+
+**Example:**
+
+```bash
+ssh user@192.168.1.10
+```
+
+To connect through a custom port:
+
+```bash
+ssh -p 2222 user@192.168.1.10
+```
+
+In these examples, `user` is the remote account name and `192.168.1.10` is the remote system's address. Replace both values with the actual credentials and address provided by the administrator. On the first connection, SSH may ask you to verify the server's host key; confirm it using a trusted source before proceeding.
+
+## 8. `scp` – Securely Copy Files Between Systems
+
+The `scp` command copies files between local and remote systems using SSH for encrypted communication and authentication. It is useful for transferring configuration files, reports, scripts, logs, and other files to or from remote Linux servers. A remote destination is specified using the format `user@host:/path`, where `user` is the remote account, `host` is the server name or IP address, and `/path` is the destination directory. To copy a remote file to the local system, reverse the source and destination. The `-r` option supports copying directories recursively, and `-P` specifies a custom SSH port. Ensure that the remote account has the required file permissions.
+
+**Example:**
+
+```bash
+scp file.txt user@192.168.1.10:/home/user/
+```
+
+To download a file from the remote system:
+
+```bash
+scp user@192.168.1.10:/home/user/file.txt .
+```
+
+To copy a directory:
+
+```bash
+scp -r project/ user@192.168.1.10:/home/user/
+```
+
+The first command uploads `file.txt`, the second downloads a remote file into the current directory (`.`), and the third copies the `project` directory. Replace the example username, address, and paths with valid values.
+
+## 9. `netstat` – Display Network Connections and Statistics
+
+The `netstat` command displays information about network connections, listening ports, routing tables, and network statistics, depending on the options used. It was widely used for network troubleshooting and remains available on some Linux systems through the `net-tools` package. However, many modern Linux distributions recommend the `ss` command for socket inspection because it is part of the newer `iproute2` utility suite. The options `-t` and `-u` select TCP and UDP sockets, `-l` shows listening sockets, and `-n` displays numeric addresses and port numbers. If `netstat` is not installed, use `ss` or install the appropriate package for your distribution.
+
+**Example:**
+
+```bash
+netstat -tuln
+```
+
+To display the routing table:
+
+```bash
+netstat -rn
+```
+
+The first command lists listening TCP and UDP sockets with numeric addresses. The second displays the kernel routing table using numeric addresses. The output depends on the installed tools and current network configuration.
+
+## 10. `hostname` – Display or Manage the System Hostname
+
+The `hostname` command displays the name assigned to a computer on a network. A hostname helps identify a Linux machine, especially when managing multiple servers, virtual machines, containers, or cloud instances. Running the command without arguments prints the current hostname. The `hostname -I` option displays IP addresses assigned to the host, while `hostname -f` attempts to display the fully qualified domain name when configured and resolvable. Changing the system hostname is a separate administrative task and may require root privileges; on many systemd-based Linux distributions, `hostnamectl` is the preferred utility for inspecting or changing persistent hostname settings.
+
+**Example:**
+
+```bash
+hostname
+```
+
+To display assigned IP addresses:
+
+```bash
+hostname -I
+```
+
+To view hostname details on a systemd-based Linux distribution:
+
+```bash
+hostnamectl
+```
+
+The first command prints the system's hostname, the second displays assigned IP addresses, and the third shows hostname-related system information. The available information depends on the operating system and network configuration.
+
+## 11. `dig` – Perform DNS Lookups
+
+The `dig` command, short for Domain Information Groper, queries the Domain Name System (DNS) to retrieve information about domain names and DNS records. It is commonly used by system administrators and cloud engineers to investigate name-resolution problems and verify DNS configuration. A standard query usually requests an A record for an IPv4 address, while `AAAA` requests IPv6 records, `MX` requests mail-server records, and `NS` requests authoritative name-server records. The `@` syntax allows a query to be directed to a specific DNS server. Some Linux distributions provide `dig` through the `dnsutils` or `bind-utils` package.
+
+**Example:**
+
+```bash
+dig google.com
+```
+
+To request specific record types:
+
+```bash
+dig google.com A
+dig google.com AAAA
+dig google.com MX
+dig google.com NS
+```
+
+To query a specific DNS resolver:
+
+```bash
+dig @8.8.8.8 google.com
+```
+
+The output includes DNS sections such as the question, answer, authority, and additional records, along with query timing and the responding server. Results depend on DNS configuration, caching, and the domain's published records.
+
+## Conclusion
+
+Linux networking commands are essential tools for diagnosing connectivity issues, inspecting network interfaces, checking open ports, downloading resources, transferring files securely, accessing remote servers, and troubleshooting DNS resolution. Commands such as `ip a`, `ping`, `traceroute`, `ss`, `curl`, `wget`, `ssh`, `scp`, `netstat`, `hostname`, and `dig` provide a practical foundation for Linux administration and cloud engineering. Learning when and how to use these tools helps users understand network behavior, identify common configuration problems, and manage Linux systems more effectively.
