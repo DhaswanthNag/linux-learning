@@ -222,7 +222,6 @@ su - linuxuser
 exit
 ```
 
----
 
 ## 🛡️ Safety Tips
 
@@ -250,8 +249,6 @@ groups    → Show user's groups
 su        → Switch user
 sudo      → Run command with privileges
 ```
-
----
 
 ## 📚 References
 
