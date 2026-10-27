@@ -206,22 +206,14 @@ sudo -u dev command
 
 ```bash
 sudo useradd -m linuxuser
-
 sudo passwd linuxuser
-
 sudo groupadd practice
-
 sudo usermod -aG practice linuxuser
-
 id linuxuser
-
 groups linuxuser
-
 su - linuxuser
-
 exit
 ```
-
 
 ## 🛡️ Safety Tips
 
