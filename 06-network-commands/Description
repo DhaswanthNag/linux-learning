@@ -238,10 +238,6 @@ dig google.com NS
 
 To query a specific DNS resolver:
 
-```bash
-dig @8.8.8.8 google.com
-```
-
 The output includes DNS sections such as the question, answer, authority, and additional records, along with query timing and the responding server. Results depend on DNS configuration, caching, and the domain's published records.
 
 ## Conclusion
