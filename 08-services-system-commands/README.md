@@ -410,7 +410,6 @@ hostnamectl           → Show system information
 - [systemd Documentation](https://systemd.io/)
 - [Ubuntu Documentation](https://documentation.ubuntu.com/)
 
-
 ⭐ If this guide helped you learn Linux commands, consider starring the repository!
 
 Made for Linux beginners with 🐧 and ❤️
