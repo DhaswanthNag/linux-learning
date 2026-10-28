@@ -261,7 +261,6 @@ It provides:
 
 > 💡 Useful for quickly checking whether a system has been running continuously.
 
----
 
 ## 🖥️ 11. `hostnamectl` — System Information
 
@@ -411,7 +410,6 @@ hostnamectl           → Show system information
 - [systemd Documentation](https://systemd.io/)
 - [Ubuntu Documentation](https://documentation.ubuntu.com/)
 
----
 
 ⭐ If this guide helped you learn Linux commands, consider starring the repository!
 
